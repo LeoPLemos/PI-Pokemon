@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { Op } = require("sequelize");
 const { Pokemon, Type } = require('../db')
 
 
@@ -18,16 +19,18 @@ const getPokemonsApi = async () =>{
                         arrPokemons.push({
                             id: e.id,
                             name : e.name,
-                            hp: e.stats[0].base_stat,
-                            attack: e.stats[1].base_stat,
-                            defense: e.stats[2].base_stat,
-                            spAttack: e.stats[3].base_stat,
-                            spDefense: e.stats[4].base_stat,
-                            speed: e.stats[5].base_stat,
-                            height: e.height,
-                            weight: e.weight,
+                            // hp: e.stats[0].base_stat,
+                            // attack: e.stats[1].base_stat,
+                            // defense: e.stats[2].base_stat,
+                            // spAttack: e.stats[3].base_stat,
+                            // spDefense: e.stats[4].base_stat,
+                            // speed: e.stats[5].base_stat,
+                            // height: e.height,
+                            // weight: e.weight,
                             image: e.sprites.other.dream_world.front_default,
-                            types: e.types
+                            types: e.types.length < 2 
+                                ? [e.types[0].type.name]
+                                : [e.types[0].type.name, e.types[1].type.name]
                             })
                     })
                     return arrPokemons
@@ -43,7 +46,13 @@ const getPokemonsApi = async () =>{
 
 const getPokemonsDb = async () =>{
     try{
-        const pokesDb = await Pokemon.findAll({includes: Type})
+        const pokesDb = await Pokemon.findAll({
+            attributes: ['id', 'name', 'image'],
+            include: {
+                model: Type,
+                attributes: ['id', 'name']
+            }
+        })
         return pokesDb
     
     }catch(err){
@@ -54,6 +63,9 @@ const getPokemonsDb = async () =>{
 // *** Trae el pokemon de la PokeApi solicitado por id o nombre ***
 
 const getPokemonApi = async (pokemon) =>{
+    if(typeof pokemon === 'string'){
+        pokemon = pokemon.toLowerCase();
+    }
     try{
         const foundPokemon = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon}/`)
         const detailPokemon = {
@@ -83,7 +95,12 @@ const getPokemonApi = async (pokemon) =>{
 
 const getPokemonDbById = async (pokemon) =>{
     try{
-        const detailPokemon = await Pokemon.findByPk(pokemon)
+        const detailPokemon = await Pokemon.findByPk(pokemon, {
+            include: {
+                model: Type,
+                attributes: ['id', 'name']
+            } 
+        })
         return detailPokemon
     
     }catch(err){
@@ -94,12 +111,16 @@ const getPokemonDbById = async (pokemon) =>{
 // *** Trae el pokemon de la DB solicitado por nombre ***
 
 const getPokemonDbByName = async (pokemon) =>{
+    pokemon = pokemon.toLowerCase();
     try{
         const detailPokemon = await Pokemon.findAll({
             where: {
               name: pokemon
             },
-            includes: Type
+            include: {
+                model: Type,
+                attributes: ['id', 'name']
+            }
           });
         return detailPokemon
     
@@ -123,13 +144,61 @@ const createPokemon = async (pokemon) =>{
             height: pokemon.height,
             weight: pokemon.weight,
             image: pokemon.image,
-            type: pokemon.type
+            // type: pokemon.type
         })
         return newPokemon;
 
     }catch(err){
         console.log(err)
     }
+}
+
+// *** Trae los tipos desde la PokeApi ***
+
+const getTypesApi = async()=>{
+    const response = await axios.get('https://pokeapi.co/api/v2/type/')
+    const types = response.data.results;
+    return types;
+}
+
+// *** Trae los tipos desde la Db ***
+
+const getTypesDb = async()=>{
+    const types = await Type.findAll({includes: Pokemon})
+    return types;
+}
+
+// *** Crea un nuevo tipo en la Db ***
+
+const createType = async(type)=>{
+    const newType = await Type.create({
+        name: type
+    })
+    return newType;
+}
+
+//*** Llena la Db con los tipos de la API ***
+
+const fillTypesDb = async()=>{
+    const types = await getTypesApi();  //acá tengo un array con {name, url}
+    types.forEach(e =>{
+        createType(e.name)
+    })
+}
+
+//*** Asigna un tipo al pokemon ***
+
+const assignType = async (pokemon, types) =>{                //recibe la id de un pokemon y un array de types
+    const pokemonToAssing = await Pokemon.findByPk(pokemon);    // busco el pokemon por id
+    const typesToAssing = await Type.findAll({                  // busco los tipos por id
+        where: {
+          [Op.or]: [
+            { id: types[0] },
+            { id: types[1] }
+          ]
+        }
+      });
+      pokemonToAssing.addTypes(typesToAssing)
 }
 
 
@@ -139,5 +208,10 @@ module.exports = {
     getPokemonApi,
     getPokemonDbById,
     getPokemonDbByName,
-    createPokemon
+    createPokemon,
+    getTypesApi,
+    getTypesDb,
+    createType,
+    fillTypesDb,
+    assignType
     }
