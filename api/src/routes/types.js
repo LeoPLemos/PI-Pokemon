@@ -1,12 +1,13 @@
 const { Router } = require('express');
 const { Pokemon, Type } = require('../db');
 const { Op } = require("sequelize");
-const { getTypesApi, getTypesDb, createType, fillTypesDb, assignType } = require('./funciones');
+const { getTypesApi, getTypesDb, createType, fillTypesDb, assignType } = require('../functions/functions');
 
 const router = Router();
 
 router.get('/', async (req, res)=>{
-    const types = await getTypesDb()
+    const type = req.body.name;
+    const types = await getTypesDb(type)
     return res.json(types)
 })
 

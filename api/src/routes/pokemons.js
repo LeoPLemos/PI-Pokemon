@@ -1,7 +1,7 @@
 const axios = require('axios');
 const { Router } = require('express');
 const { Pokemon, Type } = require('../db');
-const { getPokemonsApi, getPokemonsDb, createPokemon, getPokemonApi, getPokemonDbById, getPokemonDbByName } = require('./funciones');
+const { getPokemonsApi, getPokemonsDb, createPokemon, getPokemonApi, getPokemonDbById, getPokemonDbByName } = require('../functions/functions');
 const router = Router();
 
 // esta ruta es para traer todos o uno por nombre
@@ -10,14 +10,16 @@ router.get('/', async (req, res, next)=>{
     const { name } = req.query
     // Si existe una query traigo solo el que me pide (puede haber uno en la Db y uno en la API)
     if(name){
-        const foundpokesDb = await getPokemonDbByName(name);
-        const allFoundsPokemons = [...foundpokesDb];
-        const foundpokesApi = await getPokemonApi(name);
-        if(foundpokesApi){
-            allFoundsPokemons.push(foundpokesApi);
+        const foundPokeDb = await getPokemonDbByName(name);
+        // const allFoundsPokemons = [...foundpokesDb];
+        const foundPokeApi = await getPokemonApi(name);
+        if(foundPokeDb){
+            // allFoundsPokemons.push(foundpokesApi);
+            return res.status(200).json(foundPokeDb)
         }
-        if(allFoundsPokemons.length>0){
-            return res.status(200).json(allFoundsPokemons)    
+        // if(allFoundsPokemons.length>0){
+        if(foundPokeApi){
+            return res.status(200).json(foundPokeApi)    
         }
         return res.status(400).send('Pokemon no encontrado');    
     } 
