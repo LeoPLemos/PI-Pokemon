@@ -7,7 +7,7 @@ const { Pokemon, Type } = require('../db')
 
 const getPokemonsApi = async () =>{
     try{
-    const firstResults = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=5') //hago la primera consulta a la API
+    const firstResults = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=40') //hago la primera consulta a la API
         const result = firstResults.data.results.map(e=>  axios.get(e.url))
             // result es un array con los resultados de la segunda consulta
              let pokemons = Promise.all(result) //me guardo la promesa para retornarla
@@ -19,14 +19,14 @@ const getPokemonsApi = async () =>{
                         arrPokemons.push({
                             id: e.id,
                             name : e.name,
-                            // hp: e.stats[0].base_stat,
-                            // attack: e.stats[1].base_stat,
-                            // defense: e.stats[2].base_stat,
+                            hp: e.stats[0].base_stat,
+                            attack: e.stats[1].base_stat,
+                            defense: e.stats[2].base_stat,
                             // spAttack: e.stats[3].base_stat,
                             // spDefense: e.stats[4].base_stat,
-                            // speed: e.stats[5].base_stat,
-                            // height: e.height,
-                            // weight: e.weight,
+                            speed: e.stats[5].base_stat,
+                            height: e.height,
+                            weight: e.weight,
                             image: e.sprites.other.dream_world.front_default,
                             types: e.types.length < 2 
                                 ? [e.types[0].type.name]
@@ -50,7 +50,7 @@ const getPokemonsDb = async () =>{
             attributes: ['id', 'dbId', 'name', 'image'],
             include: {
                 model: Type,
-                attributes: ['id', 'name']
+                attributes:['name']
             }
         })
         return pokesDb
@@ -74,8 +74,8 @@ const getPokemonApi = async (pokemon) =>{
             hp: foundPokemon.data.stats[0].base_stat,
             attack: foundPokemon.data.stats[1].base_stat,
             defense: foundPokemon.data.stats[2].base_stat,
-            spAttack: foundPokemon.data.stats[3].base_stat,
-            spDefense: foundPokemon.data.stats[4].base_stat,
+            // spAttack: foundPokemon.data.stats[3].base_stat,
+            // spDefense: foundPokemon.data.stats[4].base_stat,
             speed: foundPokemon.data.stats[5].base_stat,
             height: foundPokemon.data.height,
             weight: foundPokemon.data.weight,
@@ -132,29 +132,25 @@ const getPokemonDbByName = async (pokemon) =>{
 //*** Crea un nuevo pokemon en la DB ***
 
 const createPokemon = async (pokemon) =>{
+    let{ name, hp, attack, defense, speed, height, weight, image, types} = pokemon;
     try{
         const newPokemon = await Pokemon.create({
-            name: pokemon.name,
-            hp:pokemon.hp,
-            attack: pokemon.attack,
-            defense: pokemon.defense,
-            spAttack: pokemon.spAttack,
-            spDefense: pokemon.spDefense,
-            speed: pokemon.speed,
-            height: pokemon.height,
-            weight: pokemon.weight,
-            image: pokemon.image,
-            
+            name, 
+            hp, 
+            attack, 
+            defense, 
+            speed, 
+            height, 
+            weight, 
+            image
         })
-        console.log(pokemon.types)
-        // let typeDb = await Type.findAll({
-        //     where:{
-        //         name:pokemon.types
-        //     }
-        // })
-        let typeDb = await getTypesDb(pokemon.types)
-        console.log(typeDb)
-        newPokemon.addTypes(typeDb)
+        if(types.length === 1){
+            await newPokemon.addTypes(types[0])
+        }else{
+            await newPokemon.addTypes(types[0])
+            await newPokemon.addTypes(types[1])
+        }
+        
         return newPokemon;
 
     }catch(err){

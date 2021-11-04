@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getTypes } from "../../store/actions";
 
@@ -21,8 +23,6 @@ export default function Create(){
         height:0,
         weight:0,
         image:'',
-        type1:'',
-        type2:''
     })
 
     const [errors, setErrors] = useState({
@@ -34,11 +34,12 @@ export default function Create(){
         height:'',
         weight:'',
         image:'',
-        type1:'',
-        type2:''
     });
 
+    const [typesToAdd, setTypesToAdd] = useState([]);
 
+    let [typesError, setTypesError] = useState('A Pokemon must have at least one type');
+    
     const handleInputChange=(e)=>{
         setInput({
             ...input, [e.target.name]:e.target.value
@@ -51,17 +52,45 @@ export default function Create(){
         );
     };
 
+    const handleTypesChange=(e)=>{
+        const selectedType = types.filter(t=> t.name === e.target.value);
+        const typeId = selectedType[0].id;
+        if(typesToAdd.length < 2){
+            setTypesToAdd([...typesToAdd, {id:typeId, name:e.target.value}])
+            setTypesError('')
+        }else{
+            setTypesError('A Pokemon can have only two types');
+        }
+        
+    };
+
+    const handleClearTypes = (e)=>{
+        e.preventDefault();
+        const arrTypes =  typesToAdd.filter(t=> t.name !== e.target.value)
+        setTypesToAdd(arrTypes)
+        if(arrTypes.length === 1){
+            setTypesError('')
+        }else{
+            setTypesError('A Pokemon must have at least one type')
+        }
+    }
     
 
     const handleSubmit=(e)=>{
         e.preventDefault();
-        console.log('BOTON CREAR')
+        const typesIds = typesToAdd.map(t=> t.id)
+        const newPokemon = {...input, types:typesIds}
+        axios.post("http://localhost:3001/pokemons", newPokemon)
+        
     }
         
 
     return(
         <div>
-            
+            <Link to ='/home'>
+                <button>Back</button>
+            </Link>
+            <br/>
             <div>
                 <form>
                     <label htmlFor='name'>Name:</label>
@@ -129,30 +158,36 @@ export default function Create(){
                         onChange={handleInputChange}
                     />
                     <br/>
-                    <h4>Types</h4>
-                    <label htmlFor="type1">Choose a primary tipe:  </label>
-                    <select 
-                        name="type1"
-                        value={input.type1}
-                        onChange={handleInputChange}
-                    >
-                        {types?.map((type)=>(
-                            <option key={type.id} value={type.name}>{type.name}</option>    
-                        ))}
-                    </select> 
+                    <div>   
+                        <h4>Types</h4>
+                        <label htmlFor="type1">Choose a type:  </label>
+                        <select 
+                            // name="type1"
+                            // value={input.type1}
+                            onChange={handleTypesChange}
+                        >
+                            {types?.map((type)=>(
+                                <option key={type.id} value={type.name}>{type.name}</option>    
+                            ))}
+                        </select>
+                        <div>
+                            {typesToAdd.map((type, index)=>(
+                                <div key = {index}>
+                                    <p>{type.name}</p>
+                                    <button 
+                                        onClick = {handleClearTypes}
+                                        value={type.name}
+                                    >X</button>
+                                </div>
+                                
+                            ))}
+
+                        </div>
+
+                    </div>
                     <br/>
-                    {/* <label htmlFor="type2">Choose a secondary type:  </label>
-                    <select 
-                        name="type2"
-                        value={input.type2}
-                        onChange={handleInputChange}
-                    >
-                        <option value=''></option>
-                        <option value='electric'>Electric</option>
-                        <option value='fire'>Fire</option>
-                        <option value='grass'>Grass</option>
-                        <option value='poison'>Poison</option>
-                    </select> */}
+
+                    
                     <br/>
                     <br/>
                     <button 
@@ -223,14 +258,14 @@ export function validate(input) {
         } else if (!/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/.test(input.image)) {
             errors.image = "the url is invalid"; 
         }
-    
-    if (!input.type1) {
-        errors.type1 = "must select at least one type";
-    }
+    //control types
+    // if (typesToAdd.length ) {
+    //     errors.type1 = "must select at least one type";
+    // }
 
-    if (input.type2 && input.type1 === input.type2) {
-        errors.type2 = "type already exists";
-    } 
+    // if (input.type2 && input.type1 === input.type2) {
+    //     errors.type2 = "type already exists";
+    // } 
     
     return errors;
 }

@@ -5,7 +5,6 @@ export const GET_POKEMON_BY_NAME = 'GET POKEMON BY NAME';
 export const FILTER_POKEMONS_BY_TYPE = ' FILTER POKEMONS BY TYPE';
 export const FILTER_POKEMONS_BY_CREATOR = ' FILTER POKEMONS BY CREATOR';
 export const ORDER_POKEMONS = 'ORDER POKEMONS';
-export const CREATE_POKEMON = 'CREATE POKEMON';
 export const GET_TYPES = 'GET TYPES';
 // export const ADD_FAVORITE = 'ADD FAVORITE';
 // export const REMOVE_FAVORITE = 'REMOVE FAVORITE';
@@ -38,7 +37,7 @@ export function getPokemonByName(name){
     return function (dispatch) {
         axios.get(`http://localhost:3001/pokemons?name=${name}`)
         .then((response) => {
-        dispatch({ type: GET_POKEMON_BY_NAME, payload: response.data });
+        dispatch({ type: GET_POKEMON_BY_NAME, payload: response});
         })
         .catch((err) => {
             console.log(err)
@@ -69,6 +68,13 @@ export function filterByCreator(creator){
     return{
         type:FILTER_POKEMONS_BY_CREATOR,
         payload: creator
+    }
+}
+
+export function orderPokemons(attribute, way){
+    return{
+        type:ORDER_POKEMONS,
+        payload:{attribute, way}
     }
 }
 

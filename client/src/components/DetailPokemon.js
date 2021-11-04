@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { getPokemonById } from '../store/actions';
 
@@ -22,6 +22,11 @@ export default function DetailPokemon(props){
 
     return(
         <div>
+            <div>
+                <Link to='/home'>
+                    <button>Back</button>
+                </Link>
+            </div>
            <h4>Detalle de pokemon</h4>
            <h3>{showId}</h3>
            <img src={image} alt={name}/>

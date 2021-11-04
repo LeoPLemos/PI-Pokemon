@@ -1,7 +1,7 @@
 const axios = require('axios');
 const { Router } = require('express');
 const { Pokemon, Type } = require('../db');
-const { getPokemonsApi, getPokemonsDb, createPokemon, getPokemonApi, getPokemonDbById, getPokemonDbByName } = require('../functions/functions');
+const { getPokemonsApi, getPokemonsDb, createPokemon, getPokemonApi, getPokemonDbById, getPokemonDbByName,getTypesDb } = require('../functions/functions');
 const router = Router();
 
 // esta ruta es para traer todos o uno por nombre
@@ -21,7 +21,7 @@ router.get('/', async (req, res, next)=>{
         if(foundPokeApi){
             return res.status(200).json(foundPokeApi)    
         }
-        return res.status(400).send('Pokemon no encontrado');    
+        return res.status(404).send('Pokemon not found');    
     } 
        
     //Si no existe la query traigo todos los de la Db y todos los de la API
@@ -55,21 +55,29 @@ router.get('/:id', async (req, res, next)=>{
             return res.status(200).json(detailPokemon);
            }
            return res.status(400).send('Pokemon no encontrado');
+           
+        }catch(err){
+            return next(err)
+        }
+    })
+    
+    router.post('/', async (req, res,next) =>{
+        console.log(req.body)
+        try{ 
+///////////////////////////////////// Veo si ese nombre ya existe en la Db o en la API
+            const foundPokeDb = await getPokemonDbByName(req.body.name);
+            const foundPokeApi = await getPokemonApi(req.body.name);
+            if(foundPokeDb || foundPokeApi) return res.status(400).send('Pokemon already exists')
+/////////////////////////////////////
+            const newPokemon = await createPokemon(req.body)
+            res.json(newPokemon);
 
-    }catch(err){
-        return next(err)
-    }
-})
- 
-router.post('/', async (req, res,next) =>{
-    const pokemon = req.body;
-    try{
-        const newPokemon = await createPokemon(pokemon)
-        res.status(201).json(newPokemon);
-    } catch(error){
-        next(error)
-    }
+        }catch(err){
+            return next(err)
+        }
+
 })
 
 
 module.exports = router;
+

@@ -1,51 +1,30 @@
-import React, {useEffect, useState} from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { getAllPokemons, filterByCreator } from "../../store/actions";
-import Pokemon from "../Pokemon";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { filterByCreator } from "../../store/actions";
 
 
-
-export default function FilterCreate(){
+export default function FilterByCreator(){
      
     let dispatch = useDispatch();
-    useEffect(() =>{
-        dispatch(getAllPokemons())
-    }, [dispatch]);
-
-    const filter = useSelector((state)=> state.filteredPokemons)
     
-    const [input, setInput] = useState('');
-    
-    const handleChange = (e) => {
-        setInput(e.target.value);
-        };
-
-        
-    const handleOnClick = (e) =>{
-        dispatch(filterByCreator(input))
-        setInput('');
-        
+    const handleChange=(e)=>{
+        e.preventDefault();
+        dispatch(filterByCreator(e.target.value))
     }
     
-    return <div>
-            <div>
-                <input 
-                    value={input}
-                    onChange={handleChange}/>
-                <button onClick = {handleOnClick}>Filtrar</button>
-            </div>
-            <div>
-                {filter.map(p=>(
-                    <div key={p.id}>   
-                        <Pokemon
-                                id={p.id}
-                                dbId = {p.dbId}
-                                name={p.name}
-                                image={p.image}
-                                types={p.types} 
-                            />
-                    </div>    
-                ))}
-            </div>
-    </div>
+    return(
+        <div>
+            <h4>Filter by Creator</h4>
+                <label htmlFor="type1">Creator:  </label>
+                <select 
+                    onChange={handleChange}
+                >
+                    <option value='api'>Original</option>
+                    <option value='own'>Created</option> 
+                </select>
+            <hr/>
+        </div>
+    )
 }
+
+

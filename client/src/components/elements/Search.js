@@ -42,14 +42,7 @@ export default function Search (){
                 </form>
                 <hr/>
             </div>
-            <div>
-                <GetByName 
-                    id = {id}
-                    dbId = {dbId}
-                    name = {name}
-                    image = {image}
-                />
-            </div>
+            
         </div>
     )
 }
