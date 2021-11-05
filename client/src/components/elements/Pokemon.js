@@ -6,7 +6,14 @@ export default function Pokemon ({id, dbId, name, image, type1, type2}){
     let showId = id;
     if(dbId){
         showId = 'Own'+dbId
+    }else{
+        showId = '#'+id 
     }
+
+    function capitalizeName(name) {
+        return name.charAt(0).toUpperCase() + name.slice(1);
+      }
+       
     return(
         <div>
             <h4>    
@@ -14,16 +21,19 @@ export default function Pokemon ({id, dbId, name, image, type1, type2}){
             </h4>
             <Link to={`/pokemon/${id}`}>
                 <h3>
-                    {name}
+                    {capitalizeName(name)}
                 </h3>
             </Link>
             <img src={image} alt={name}></img>
-            <h5>
-                {type1}
-            </h5>
-            <h5>
-                {type2}
-            </h5>
+            <div>
+                <h4>Type</h4>
+                <h5>
+                    {type1}
+                </h5>
+                <h5>
+                    {type2}
+                </h5>
+            </div>
         </div>
     )
 }

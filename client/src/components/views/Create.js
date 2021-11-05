@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { getTypes } from "../../store/actions";
+import { getAllPokemons, getTypes } from "../../store/actions";
 
 
 
 export default function Create(){
     const types = useSelector((state)=> state.types);
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const history = useHistory();
     useEffect(() =>{
         dispatch(getTypes())
         
@@ -33,7 +34,7 @@ export default function Create(){
         speed:'',
         height:'',
         weight:'',
-        image:'',
+        image:''
     });
 
     const [typesToAdd, setTypesToAdd] = useState([]);
@@ -81,14 +82,33 @@ export default function Create(){
         const typesIds = typesToAdd.map(t=> t.id)
         const newPokemon = {...input, types:typesIds}
         axios.post("http://localhost:3001/pokemons", newPokemon)
-        
+        .then(res =>{
+            dispatch(getAllPokemons())
+            alert('Pokemon created successfully')
+            setInput({
+                name:'',
+                hp:0,
+                attack:0,
+                defense:0,
+                speed:0,
+                height:0,
+                weight:0,
+                image:''
+                })
+            setTypesToAdd([]);
+            history.push('/home')
+        })
+        .catch((err)=> {
+            return alert(`The name ${input.name} already exists.
+                     The pokemon was not created`) 
+        })
     }
-        
 
+        
     return(
         <div>
             <Link to ='/home'>
-                <button>Back</button>
+                <button>Home</button>
             </Link>
             <br/>
             <div>
@@ -162,8 +182,6 @@ export default function Create(){
                         <h4>Types</h4>
                         <label htmlFor="type1">Choose a type:  </label>
                         <select 
-                            // name="type1"
-                            // value={input.type1}
                             onChange={handleTypesChange}
                         >
                             {types?.map((type)=>(

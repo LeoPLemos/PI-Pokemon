@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 
 export default function Order({ setCurrentPage, setOrder }){
     const[input, setInput]= useState({
-        attribute:'name',
+        attribute:'',
         way:'asc'
     })
 
@@ -12,10 +12,11 @@ export default function Order({ setCurrentPage, setOrder }){
     
     const handleChange=(e)=>{
         e.preventDefault();
-        setInput({
-            ...input, [e.target.name]:e.target.value
-        })
-
+        if(e.target.value){
+            setInput({
+                ...input, [e.target.name]:e.target.value
+            })
+        }
     }
     
     const handleOnClick = (e)=>{
@@ -34,6 +35,7 @@ export default function Order({ setCurrentPage, setOrder }){
                         name='attribute'
                         onChange={handleChange}
                     >
+                        <option value={null}></option>
                         <option value='name'>Name</option>
                         <option value='hp'>Health Points</option>
                         <option value='attack'>Attack</option>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPokemonByName } from '../../store/actions/index';
-import GetByName  from './GetByName'
+import { getPokemonByName, resetShowPokemons } from '../../store/actions/index';
 
 
 export default function Search (){  
@@ -15,17 +14,14 @@ export default function Search (){
     
     const handleSubmit = (e) =>{
         e.preventDefault();
+        dispatch(resetShowPokemons())
         dispatch(getPokemonByName(input))
         setInput('');
     }
-    const foundPokemon = useSelector((state)=> state.pokemonDetail)
-    
-    const { id, dbId, name, image} = foundPokemon;
     
     return(
         <div>
             <div>
-                <h2>Buscador</h2>
                 <form className="form-container" onSubmit={(e) => handleSubmit(e)}>
                     <div>
                         <input

@@ -16,16 +16,19 @@ export default function FilterByType(){
         
     const handleChange=(e)=>{
         e.preventDefault();
+        if(e.target.value){
         dispatch(filterByType(e.target.value))
+        }
     }
     
     return( 
         <div>
             <h4>Filter by Type</h4>
-                <label htmlFor="type">Type:  </label>
+                <label>Type:  </label>
                 <select 
                     onChange={handleChange}
                 >
+                    <option value={null}></option>
                     {types?.map((type)=>(
                         <option key={type.id} value={type.name}>{type.name}</option>    
                     ))}

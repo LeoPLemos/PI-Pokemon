@@ -1,15 +1,9 @@
 import './App.css';
 import { Route, Switch } from "react-router-dom";
-import Pokemons from './components/Pokemons';
-import DetailPokemon from './components/DetailPokemon'
+import Pokemons from './components/views/Pokemons';
+import DetailPokemon from './components/views/DetailPokemon'
 import Create from './components/views/Create';
-import FilterType from './components/elements/FilterByType';
-import FilterCreate from './components/elements/FilterByCreator';
 import LandingPage from './components/views/LandingPage';
-
-// import Detail from './components/views/Detail';
-
-
 
 function App() {
   return (
@@ -19,7 +13,6 @@ function App() {
         <Route exact path="/home" component={Pokemons} />
         <Route exact path="/pokemon/:id" component={DetailPokemon} />
         <Route exact path="/create" component={Create} />
-        <Route exact path="/creator" component={FilterCreate} />
       </Switch>
       
     </div>

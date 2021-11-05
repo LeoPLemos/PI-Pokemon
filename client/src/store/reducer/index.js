@@ -6,6 +6,8 @@ import {
     FILTER_POKEMONS_BY_TYPE,
     FILTER_POKEMONS_BY_CREATOR,
     ORDER_POKEMONS,
+    RESET_SHOWPOKEMONS,
+    RESET_POKEMON_DETAIL
     // CREATE_POKEMON,
     // ADD_FAVORITE,
     // REMOVE_FAVORITE, 
@@ -16,8 +18,8 @@ const initialState = {
     loadedPokemons: [],
     showPokemons: [],
     types:[],
-    pokemonDetail:{},
-    statusReponseGet:0        
+    pokemonDetail:undefined,
+    
     // favoritesPokemons: [],
 };
 
@@ -49,13 +51,13 @@ const reducer = (state= initialState, action)=>{
                 pokemonDetail:action.payload
             }    
         case GET_POKEMON_BY_NAME:
-            const{ status, data } = action.payload;
-            if(status === 404){
+            if(!action.payload){
                 return {
                     ...state,
-                    statusReponseGet:status
+                    showPokemons:[404]
                 }
             }else {
+                const data = action.payload;
                 const foundPokemon = [];
                 //con esto adecuo el formato del type de los pokes que vienen de la Db
                 if(data.dbId){                             
@@ -75,14 +77,20 @@ const reducer = (state= initialState, action)=>{
                 types:action.payload
             }
         case FILTER_POKEMONS_BY_TYPE:
-            const filter = state.loadedPokemons.filter(p => p.types.includes(action.payload))
+            let filter = state.loadedPokemons.filter(p => p.types.includes(action.payload))
+            if(!filter.length){
+                filter = [404];
+            }
             return {
                 ...state,
                 showPokemons:filter
             }
         case FILTER_POKEMONS_BY_CREATOR:
             if(action.payload === 'own'){
-                const filter = state.loadedPokemons.filter(p=> p.hasOwnProperty('dbId'))
+                let filter = state.loadedPokemons.filter(p=> p.hasOwnProperty('dbId'))
+                if(!filter.length){
+                    filter = [404];
+                }
                 return{
                     ...state,
                     showPokemons:filter
@@ -90,6 +98,9 @@ const reducer = (state= initialState, action)=>{
             }
             if(action.payload === 'api'){
                 const filter = state.loadedPokemons.filter(p=> !p.hasOwnProperty('dbId'))
+                if(!filter.length){
+                    filter = [404];
+                }
                 return{
                     ...state,
                     showPokemons:filter
@@ -115,7 +126,16 @@ const reducer = (state= initialState, action)=>{
                 ...state,
                 showPokemons: orderedPokemons
             }
-        
+        case RESET_SHOWPOKEMONS:
+            return{
+                ...state,
+                showPokemons:[]
+            }
+        case RESET_POKEMON_DETAIL:
+            return{
+                ...state,
+                pokemonDetail:undefined
+            }
         default:
             return state;
     }
