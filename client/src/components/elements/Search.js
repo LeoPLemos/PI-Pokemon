@@ -21,10 +21,11 @@ export default function Search (){
     
     return(
         <div>
-            <div>
-                <form className="form-container" onSubmit={(e) => handleSubmit(e)}>
-                    <div>
+            <form onSubmit={(e) => handleSubmit(e)}>
+                <div className="search_tile">    
+                    <div className="search_input">
                         <input
+                        placeholder="Search your Pokemon..."
                         type="text"
                         id="search"
                         name="input"
@@ -32,13 +33,12 @@ export default function Search (){
                         value={input}
                         onChange={(e) => handleChange(e)}
                         />
+                    </div >
+                    <div className="search_button">
+                        <button type="submit">Search</button>
                     </div>
-                    <br/>
-                    <button type="submit">SEARCH POKEMON</button>
-                </form>
-                <hr/>
-            </div>
-            
+                </div>
+            </form>
         </div>
     )
 }

@@ -23,17 +23,16 @@ export default function FilterByType(){
     
     return( 
         <div>
-            <h4>Filter by Type</h4>
-                <label>Type:  </label>
+            <div className="by_type_title"></div>
+                <label className="label_filter">Type:  </label>
                 <select 
                     onChange={handleChange}
                 >
-                    <option value={null}></option>
+                    <option value={null}>Select...</option>
                     {types?.map((type)=>(
                         <option key={type.id} value={type.name}>{type.name}</option>    
                     ))}
                 </select>
-            <hr/>
         </div>
     )        
 }

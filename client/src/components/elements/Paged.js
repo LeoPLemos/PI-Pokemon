@@ -1,4 +1,6 @@
 import React from "react";
+import './Paged.css';
+
 
 
 export default function Paged({pokemonsPerPage, pokemons, paged}){
@@ -10,7 +12,7 @@ export default function Paged({pokemonsPerPage, pokemons, paged}){
     
     return(
         <div>
-            <nav>
+            <nav className="pagination">
                 <ul>
                     { pageNumbers?.map(num =>{
                         return <a key={num}>

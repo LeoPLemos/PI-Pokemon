@@ -16,16 +16,15 @@ export default function FilterByCreator(){
     
     return(
         <div>
-            <h4>Filter by Creator</h4>
-                <label>Creator:  </label>
+            <div className="by_creator_title"></div>
+                <label className="label_filter">Creator:  </label>
                 <select 
                     onChange={handleChange}
                 >
-                    <option value={null}></option>
+                    <option value={null}>Select...</option>
                     <option value='api'>Original</option>
                     <option value='own'>Created</option> 
                 </select>
-            <hr/>
         </div>
     )
 }

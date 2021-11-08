@@ -7,7 +7,11 @@ import Pokemon from '../elements/Pokemon'
 import Paged from '../elements/Paged';
 import FilterByType from '../elements/FilterByType';
 import FilterByCreator from '../elements/FilterByCreator';
+import NotFound from './NotFound';
 import Order from '../elements/Order';
+import Header from './Header';
+import './Pokemons.css'
+
 
 
 
@@ -37,7 +41,7 @@ export default function Pokemons() {
     
     return(
         <div>
-            <br/>
+            {/* <br/>
             <div>
                 <button onClick= {handleLoadOnClick}>All Pokemons</button>
             </div>
@@ -62,9 +66,16 @@ export default function Pokemons() {
                     setCurrentPage={setCurrentPage}
                     setOrder={setOrder}
                /> 
-            </div>
+            </div> */}
+
             <div>
-                
+                <Header
+                    setCurrentPage={setCurrentPage}
+                    setOrder={setOrder}
+                />
+            </div>
+
+            <div  className="container_grid">
                 {!currentPokemons.length?
                     <>
                     <div>
@@ -73,18 +84,12 @@ export default function Pokemons() {
                     </>
                     :
                     <>
-                    <div>
-                        <Paged
-                            pokemonsPerPage={pokemonsPerPage}
-                            pokemons={pokemons.length}
-                            paged={paged}
-                        />
-                    </div>
-                    <div>
-                        {currentPokemons[0]=== 404?
-                            <h4>404 Pokemon not found</h4>
-                            :
-                            currentPokemons.map(p => {
+                    {currentPokemons[0]=== 404?
+                        <NotFound/>
+                        : 
+                        <>    
+                        <div className="grid">    
+                           {currentPokemons.map(p => {
                             return <div key={p.id}>
                                     <Pokemon
                                         id = {p.id}
@@ -95,9 +100,18 @@ export default function Pokemons() {
                                         type2 = {p.types[1]}
                                     />
                                     </div>
-                            })
-                        }
-                    </div>
+                                })
+                            }
+                        </div> 
+                        <div className="pagination">
+                            <Paged
+                                pokemonsPerPage={pokemonsPerPage}
+                                pokemons={pokemons.length}
+                                paged={paged}
+                            />
+                        </div>
+                    </>
+                    }
                     </>  
                 }
             </div>    

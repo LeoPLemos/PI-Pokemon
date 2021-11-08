@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { orderPokemons } from '../../store/actions/index'
 import { useDispatch } from "react-redux";
 
+
 export default function Order({ setCurrentPage, setOrder }){
     const[input, setInput]= useState({
         attribute:'',
@@ -27,15 +28,15 @@ export default function Order({ setCurrentPage, setOrder }){
     }
 
     return(
-        <div>   
-            <h4>Order</h4>
-                <div>
-                    <label>Order by: </label>
+        <div> 
+            <div className="order_tile">  
+                <div className="order_by_attribute">
+                    <label className="label_order">Order by: </label>
                     <select 
                         name='attribute'
                         onChange={handleChange}
                     >
-                        <option value={null}></option>
+                        <option value={null}>Select...</option>
                         <option value='name'>Name</option>
                         <option value='hp'>Health Points</option>
                         <option value='attack'>Attack</option>
@@ -45,7 +46,7 @@ export default function Order({ setCurrentPage, setOrder }){
                         <option value='weight'>Weight</option> 
                     </select>
                 </div>
-                <div>
+                <div className="order_by_way">
                     <select 
                         name='way'
                         onChange={handleChange}
@@ -54,11 +55,10 @@ export default function Order({ setCurrentPage, setOrder }){
                         <option value='des'>Des</option>
                     </select>
                 </div>
-                <div>
-                    <button onClick={handleOnClick}>Order</button>
-                </div>
-
-            <hr/>
+            </div>    
+            <div>
+                <button onClick={handleOnClick}>Order</button>
+            </div>
         </div>
     )
 

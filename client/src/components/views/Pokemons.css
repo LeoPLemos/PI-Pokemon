@@ -1,0 +1,30 @@
+body {
+    background-color: #FFE53B;
+    background-image: linear-gradient(147deg, #FFE53B 0%, #fd3838 74%);
+    min-height: 100vh;
+}
+
+.container_grid{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+/* .pagination{
+   display:block;
+   align-self: start;
+} */
+
+.grid {  
+    position:relative;  
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    row-gap: 5px;
+    column-gap: 50px;
+    margin:0px 0px 0px 70px;
+    
+    
+}

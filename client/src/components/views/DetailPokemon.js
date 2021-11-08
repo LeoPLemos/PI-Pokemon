@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
+import './DetailPokemon.css'
 import { getPokemonById, resetPokemonDetail } from '../../store/actions';
 
 
@@ -21,35 +22,52 @@ export default function DetailPokemon(props){
 
     return(
         <div>
-            <div>
-                <Link to='/home'>
-                    <button>Home</button>
-                </Link>
-            </div>
-            <div>
-                {!detailPokemon? 
-                    <>
-                    <div>
-                        <h4>Loading...</h4>
-                    </div>
-                    </>
-                    :
-                    <div>
-                        <h3>{detailPokemon.dbId? 'Own'+ detailPokemon.dbId : '#'+ detailPokemon.id}</h3>
-                        <img src={detailPokemon.image} alt={detailPokemon.name}/>
-                        <h2>{capitalizeName(detailPokemon.name)}</h2>
-                        <h5>Health Points: {detailPokemon.hp}</h5>
-                        <h5>Attack: {detailPokemon.attack}</h5>
-                        <h5>Defense: {detailPokemon.defense}</h5>
-                        <h5>Speed: {detailPokemon.speed}</h5>
-                        <h5>Height: {detailPokemon.height}</h5>
-                        <h5>Weight: {detailPokemon.weight}</h5>
-                        <h4>Types </h4>
-                        {detailPokemon.types?.map((t, index)=> (
-                            <h4 key={index}>{t}</h4>))}
-                    </div>        
-                }        
-            </div>
+            <div className="detail_page">
+                <div className="button_home">
+                    <Link to='/home'>
+                        <button>Home</button>
+                    </Link>
+                </div>
+                {/* <div className="este"> */}
+                    {!detailPokemon? 
+                        <>
+                        <div>
+                            <h4>Loading...</h4>
+                        </div>
+                        </>
+                        :
+                        <div className="container">
+                            <div className="img_container">
+                                <img cassName="image" src={detailPokemon.image} alt={detailPokemon.name}/>
+                            </div>
+                            <div className="detail">
+                                <div className="id">
+                                    <h3>{detailPokemon.dbId? 'Own'+ detailPokemon.dbId : '#'+ detailPokemon.id}</h3>
+                                </div>
+                                <div className="name">
+                                    <h2>{capitalizeName(detailPokemon.name)}</h2>
+                                </div>
+                                <div className="height">Height {detailPokemon.height}</div>
+                                <div className="weight">Weight {detailPokemon.weight}</div>
+                                <div className="stats_container">
+                                    <div className="stats_title">Stats</div>
+                                    <div className="hp">Health Points {detailPokemon.hp}</div>
+                                    <div className="attack">Attack {detailPokemon.hp}</div>
+                                    <div className="defense">Defense {detailPokemon.hp}</div>
+                                    <div className="speed">Speed {detailPokemon.hp}</div>
+                                </div>
+                                <div className="types_container">
+                                    <div className="types_title">Types</div>
+                                    <div className="types">
+                                        {detailPokemon.types?.map((t, index)=> (
+                                        <div key={index}>{t}</div>))}
+                                    </div>    
+                                </div>
+                            </div>        
+                        </div>        
+                    }        
+                {/* </div> */}
+            </div>    
         </div>
     )
 }
