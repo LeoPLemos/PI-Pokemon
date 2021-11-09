@@ -2,14 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getAllPokemons, resetShowPokemons, } from '../../store/actions';
-import Search from '../elements/Search'
 import Pokemon from '../elements/Pokemon'
 import Paged from '../elements/Paged';
-import FilterByType from '../elements/FilterByType';
-import FilterByCreator from '../elements/FilterByCreator';
 import NotFound from './NotFound';
-import Order from '../elements/Order';
 import Header from './Header';
+import Loading from './Loading';
 import './Pokemons.css'
 
 
@@ -41,33 +38,6 @@ export default function Pokemons() {
     
     return(
         <div>
-            {/* <br/>
-            <div>
-                <button onClick= {handleLoadOnClick}>All Pokemons</button>
-            </div>
-            <br/>
-            <div>
-                <Link to ='/create'>
-                    <button >Create Pokemon</button>
-                </Link>   
-            </div>
-            <br/>
-            <div>
-                <Search/>
-            </div>
-            <div>
-               <FilterByType/> 
-            </div>
-            <div>
-               <FilterByCreator/> 
-            </div>
-            <div>
-               <Order
-                    setCurrentPage={setCurrentPage}
-                    setOrder={setOrder}
-               /> 
-            </div> */}
-
             <div>
                 <Header
                     setCurrentPage={setCurrentPage}
@@ -79,7 +49,7 @@ export default function Pokemons() {
                 {!currentPokemons.length?
                     <>
                     <div>
-                        <h4>Loading...</h4>
+                        <Loading />
                     </div>
                     </>
                     :

@@ -57,7 +57,7 @@ export default function Order({ setCurrentPage, setOrder }){
                 </div>
             </div>    
             <div>
-                <button onClick={handleOnClick}>Order</button>
+                <button className="clear_button" onClick={handleOnClick}>Order</button>
             </div>
         </div>
     )

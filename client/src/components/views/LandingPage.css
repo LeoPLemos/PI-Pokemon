@@ -18,3 +18,29 @@
     width: 700px;
     margin-top:20px
 }
+
+.start_button{
+    display: inline-block;
+    padding: 5px 25px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #071553;
+    border: none;
+    border-radius: 15px;
+    
+}
+
+.start_button:hover {
+    background-color: #6b0412
+}
+
+.start_button:active {
+    background-color: #6b0412;
+    transform: translateY(4px);
+}

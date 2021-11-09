@@ -8,7 +8,6 @@ import {
     ORDER_POKEMONS,
     RESET_SHOWPOKEMONS,
     RESET_POKEMON_DETAIL
-    // CREATE_POKEMON,
     // ADD_FAVORITE,
     // REMOVE_FAVORITE, 
     } from "../actions/index"

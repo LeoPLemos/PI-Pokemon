@@ -27,11 +27,8 @@ export default function LandingPage(){
                 <img className="characters" src={characters} alt=''/>
             </div>
             <Link to='/home'>
-                <button>START</button>
+                <button className="start_button">Start</button>
             </Link> 
-
-
-
         </div>
     )
 }

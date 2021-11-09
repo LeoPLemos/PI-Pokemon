@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
+import Loading from './Loading';
 import './DetailPokemon.css'
 import { getPokemonById, resetPokemonDetail } from '../../store/actions';
 
@@ -28,11 +29,17 @@ export default function DetailPokemon(props){
                         <button>Home</button>
                     </Link>
                 </div>
-                {/* <div className="este"> */}
+                
                     {!detailPokemon? 
                         <>
                         <div>
-                            <h4>Loading...</h4>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <Loading />
                         </div>
                         </>
                         :
@@ -52,9 +59,9 @@ export default function DetailPokemon(props){
                                 <div className="stats_container">
                                     <div className="stats_title">Stats</div>
                                     <div className="hp">Health Points {detailPokemon.hp}</div>
-                                    <div className="attack">Attack {detailPokemon.hp}</div>
-                                    <div className="defense">Defense {detailPokemon.hp}</div>
-                                    <div className="speed">Speed {detailPokemon.hp}</div>
+                                    <div className="attack">Attack {detailPokemon.attack}</div>
+                                    <div className="defense">Defense {detailPokemon.defense}</div>
+                                    <div className="speed">Speed {detailPokemon.speed}</div>
                                 </div>
                                 <div className="types_container">
                                     <div className="types_title">Types</div>
@@ -66,7 +73,7 @@ export default function DetailPokemon(props){
                             </div>        
                         </div>        
                     }        
-                {/* </div> */}
+                
             </div>    
         </div>
     )

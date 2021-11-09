@@ -3,7 +3,10 @@
     width: 295px;
     height: 125px; 
     display: flex;
-    
+}
+
+.card_container:hover {
+    transform: translateY(-8px) translateX(-8px);
     
 }
 

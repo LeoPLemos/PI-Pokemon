@@ -47,7 +47,7 @@ const getPokemonsApi = async () =>{
 const getPokemonsDb = async () =>{
     try{
         const pokesDb = await Pokemon.findAll({
-            attributes: ['id', 'dbId', 'name', 'image'],
+            attributes: ['id', 'dbId', 'name', 'height', 'weight','hp', 'attack', 'defense', 'speed','image'],
             include: {
                 model: Type,
                 attributes:['name']

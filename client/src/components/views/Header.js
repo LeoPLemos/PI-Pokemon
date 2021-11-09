@@ -25,11 +25,9 @@ export default function Header({ setCurrentPage, setOrder }){
                 <div>   
                     <img className="logo" src={logo} alt="logo_pokemon"/>
                 </div>
-                <div className="button_leave">
                     <Link to="/">
-                        <button>Leave</button>
+                        <button className="button_leave">Quit</button>
                     </Link>
-                </div>
             </div>
             <div className="tools">
                 <div className="filters">
