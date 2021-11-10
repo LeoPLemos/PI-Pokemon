@@ -30,7 +30,7 @@ export default function FilterByType(){
                 >
                     <option value={null}>Select...</option>
                     {types?.map((type)=>(
-                        <option key={type.id} value={type.name}>{type.name}</option>    
+                        <option className="select" key={type.id} value={type.name}>{type.name}</option>    
                     ))}
                 </select>
         </div>

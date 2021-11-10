@@ -34,8 +34,8 @@ export default function Search (){
                         onChange={(e) => handleChange(e)}
                         />
                     </div >
-                    <div className="search_button">
-                        <button type="submit">Search</button>
+                    <div className="search_button_container">
+                        <button className="search_button" type="submit">Search</button>
                     </div>
                 </div>
             </form>

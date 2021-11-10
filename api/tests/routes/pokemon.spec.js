@@ -16,9 +16,24 @@ describe('Pokemon routes', () => {
   }));
   beforeEach(() => Pokemon.sync({ force: true })
     .then(() => Pokemon.create(pokemon)));
-  describe('GET /pokemons', () => {
+
+  describe('Trae todos los pokemones cuando ejecutes un get a la ruta /pokemons', () => {
+    it('should get 200', () =>{
+      agent.get('/pokemons').expect(200);
+      
+    });
+  });
+});
+
+describe('Types routes', () => {
+  before(() => conn.authenticate()
+  .catch((err) => {
+    console.error('Unable to connect to the database:', err);
+  }));
+  describe('Trae los tipos de pokemon cuando ejecutes un get a la ruta /types', () => {
     it('should get 200', () =>
-      agent.get('/pokemons').expect(200)
+      agent.get('/types').expect(200)
     );
   });
 });
+

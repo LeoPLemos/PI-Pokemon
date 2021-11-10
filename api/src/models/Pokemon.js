@@ -30,14 +30,7 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       
     },
-    // spAttack: {
-    //   type: DataTypes.INTEGER,
-      
-    // },
-    // spDefense: {
-    //   type: DataTypes.INTEGER,
-      
-    // },
+    
     speed: {
       type: DataTypes.INTEGER,
       
@@ -54,10 +47,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       
     },
-    // type: {
-    //   type: DataTypes.STRING,
-      
-    // }
+    
   });
   sequelize.addHook('beforeValidate', pokemon => {
     pokemon.name = pokemon.name.toLowerCase();

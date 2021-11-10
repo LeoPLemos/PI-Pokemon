@@ -56,25 +56,25 @@ router.get('/:id', async (req, res, next)=>{
            }
            return res.status(400).send('Pokemon no encontrado');
            
-        }catch(err){
-            return next(err)
-        }
-    })
+    }catch(err){
+        return next(err)
+    }
+})
     
-    router.post('/', async (req, res,next) =>{
-        console.log(req.body)
-        try{ 
+router.post('/', async (req, res,next) =>{
+    console.log(req.body)
+    try{ 
 ///////////////////////////////////// Veo si ese nombre ya existe en la Db o en la API
-            const foundPokeDb = await getPokemonDbByName(req.body.name);
-            const foundPokeApi = await getPokemonApi(req.body.name);
-            if(foundPokeDb || foundPokeApi) return res.status(400).send('Pokemon already exists')
+        const foundPokeDb = await getPokemonDbByName(req.body.name);
+        const foundPokeApi = await getPokemonApi(req.body.name);
+        if(foundPokeDb || foundPokeApi) return res.status(400).send('Pokemon already exists')
 /////////////////////////////////////
-            const newPokemon = await createPokemon(req.body)
-            res.json(newPokemon);
+        const newPokemon = await createPokemon(req.body)
+        res.json(newPokemon);
 
-        }catch(err){
-            return next(err)
-        }
+    }catch(err){
+        return next(err)
+    }
 
 })
 

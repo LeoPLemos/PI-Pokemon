@@ -50,9 +50,9 @@ export default function Header({ setCurrentPage, setOrder }){
                     <div className="search">
                         <Search/>
                     </div>
-                    <div className="create">
+                    <div className="create_container">
                         <Link to="/create">
-                            <button>Create Pokemon</button>
+                            <button className="create">Create Pokemon</button>
                         </Link>
                     </div>
                 </div>

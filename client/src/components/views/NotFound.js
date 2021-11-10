@@ -10,7 +10,7 @@ export default function NotFound(){
                 <h2>404 Pokemon not found</h2>
             </div>
             <div>
-                <img  width="400px" src={notFound} alt='not found' />
+                <img data-testid="not_found" width="400px" src={notFound} alt='not found' />
             </div>
         </div>
     )

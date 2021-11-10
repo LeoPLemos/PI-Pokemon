@@ -19,12 +19,12 @@ export default function LandingPage(){
     return(
         <div>
             <div>
-                <img className="logo_Portal" src={logo} alt=''/>
+                <img className="logo_Portal" src={logo} alt='' data-testid="logo_Portal"/>
             </div>
             <span className="landing_title">Welcome to Pokemon's App!</span>
             
             <div>    
-                <img className="characters" src={characters} alt=''/>
+                <img className="characters" src={characters} alt='' data-testid="characters"/>
             </div>
             <Link to='/home'>
                 <button className="start_button">Start</button>

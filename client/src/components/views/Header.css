@@ -114,12 +114,21 @@
     padding:3px; 
 }
 
+.select {
+    background-color: cadetblue;
+}
+
 .clear_button{
     margin:1px;
     background-color: rgb(50, 52, 206);
     border-radius: 5px;
     color:blanchedalmond;
     font-weight: 700;
+}
+
+.clear_button:hover {
+    background-color: rgb(70, 165, 194);
+    cursor: pointer;
 }
 
 .search_create_container{
@@ -142,21 +151,43 @@
 }
 
 .search_input {
-    background-color: black;
     display: flex;
-    
     margin:12px 3px;
 }
 
-.search_button{
-    display: flex;
-    height: 20px;
+#search {
+    background-color: rgb(124, 158, 231);
+}
 
+.search_button_container{
+    display: flex;
+}
+    
+.search_button{
+    padding-bottom: 18px;
+    height: 20px;
+    background-color: rgb(50, 52, 206);
+    border-radius: 5px;
+    color:blanchedalmond;
+    font-weight: 700;
+}
+
+.search_button:hover {
+    background-color: rgb(70, 165, 194);
+    cursor: pointer;
 }
 
 .create{
     margin:5px;
+    background-color: rgb(50, 52, 206);
+    border-radius: 5px;
+    color:blanchedalmond;
+    font-weight: 700;
+}
 
+.create:hover {
+    background-color: rgb(70, 165, 194);
+    cursor: pointer;
 }
 
 .order_container{

@@ -10,6 +10,8 @@ body {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 30px;
+    margin-left:100px;
+    width: 85vw;
 }
 
 /* .pagination{
@@ -19,12 +21,15 @@ body {
 
 .grid {  
     position:relative;  
-    display:grid;
+    /* display:grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     row-gap: 5px;
     column-gap: 50px;
-    margin:0px 0px 0px 70px;
-    
+    margin:0px 0px 0px 70px; */
+    display:flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
     
 }
